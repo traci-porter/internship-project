@@ -1,0 +1,49 @@
+Feature: Test Scenarios for Search functionality # features/tests/product_search.feature:1
+
+  Scenario: User can search for a product  # features/tests/product_search.feature:3
+    Given Open Google page                 # features/steps/product_search.py:10
+    When Input Car into search field       # features/steps/target_product_search.py:6
+    And Click on search icon               # features/steps/target_product_search.py:14
+    Then Product results for Car are shown # features/steps/target_product_search.py:19
+
+Feature: View Empty Cart on Target.com # features/tests/target_click_cart_icon.feature:1
+
+  Scenario: User can verify when the cart is empty  # features/tests/target_click_cart_icon.feature:3
+    Given Open Target page                          # features/steps/target_click_cart_icon.py:6
+    When Click on cart icon                         # features/steps/target_click_cart_icon.py:10
+    Then Cart is empty                              # features/steps/target_click_cart_icon.py:15
+
+Feature: Verify sign in for logged out users # features/tests/target_logout.feature:2
+
+  Scenario: Logged out user can navigate to Sign In  # features/tests/target_logout.feature:5
+    Given Open Target page                           # features/steps/target_click_cart_icon.py:6
+    When Click on Account                            # features/steps/target_logout.py:10
+    And Click on sign in                             # features/steps/target_logout.py:15
+    Then Open sign in form                           # features/steps/target_logout.py:20
+
+Feature: Test Scenarios for Search functionality # features/tests/target_product_search.feature:1
+
+  Scenario: User can search for a product       # features/tests/target_product_search.feature:3
+    Given Open Target page                      # features/steps/target_click_cart_icon.py:6
+    When Input 'Pencil' into search field       # features/steps/target_product_search.py:6
+    When Click on search icon                   # features/steps/target_product_search.py:14
+    Then Product results for 'Pencil' are shown # features/steps/target_product_search.py:19
+
+  Scenario: Verify number of benefit cells         # features/tests/target_product_search.feature:9
+    Given Open Target page                         # features/steps/target_click_cart_icon.py:6
+    When Open Target Circle page                   # features/steps/target_circle_page.py:5
+    Then Verify Circle page has '10' or more cells # None
+
+  Scenario: User can add a product to the cart                                                      # features/tests/target_product_search.feature:14
+    Given Open Target page                                                                          # features/steps/target_click_cart_icon.py:6
+    When Input 'V8 +Energy Summertime Watermelon Energy Drink - 6pk/8 fl oz Cans' into search field # features/steps/target_product_search.py:6
+    When Click on search icon                                                                       # features/steps/target_product_search.py:14
+    When Click the add to cart button                                                               # features/steps/target_add_to_cart.py:15
+    When Choose options and add to cart                                                             # features/steps/target_add_to_cart.py:24
+    When Click view cart                                                                            # features/steps/target_add_to_cart.py:33
+    Then Verify 'V8 +Energy Summertime Watermelon Energy Drink - 6pk/8 fl oz Cans' is in the cart   # None
+
+0 features passed, 0 failed, 0 skipped, 4 untested
+0 scenarios passed, 0 failed, 0 skipped, 6 untested
+0 steps passed, 0 failed, 0 skipped, 2 undefined, 23 untested
+Took 0m0.000s
