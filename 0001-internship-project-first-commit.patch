@@ -1,0 +1,1621 @@
+From 81f739362bd1e98f232af8a6222214cf5265293e Mon Sep 17 00:00:00 2001
+From: Traci Porter <traci707@gmail.com>
+Date: Fri, 11 Jul 2025 15:24:55 -0500
+Subject: [PATCH] internship project first commit
+
+---
+ .gitignore                                    | 96 +++++++++++++++++++
+ Homework_2.py                                 | 18 ++++
+ Homework_3.py                                 | 13 +++
+ README.md                                     |  4 +
+ app/__init__.py                               |  0
+ app/application.py                            | 25 +++++
+ features/__init__.py                          |  0
+ features/environment.py                       | 70 ++++++++++++++
+ features/steps/__init__.py                    |  0
+ features/steps/cart_page_steps.py             | 36 +++++++
+ features/steps/header_steps.py                | 40 ++++++++
+ features/steps/help_page_steps.py             | 26 +++++
+ features/steps/main_page_steps.py             |  8 ++
+ features/steps/product_details_page_steps.py  | 35 +++++++
+ features/steps/product_search.py              | 32 +++++++
+ features/steps/search_results_page_steps.py   | 44 +++++++++
+ features/steps/sign_in_steps.py               | 37 +++++++
+ features/steps/target_add_to_cart.py          | 63 ++++++++++++
+ features/steps/target_app_page_steps.py       | 29 ++++++
+ features/steps/target_circle_page.py          | 15 +++
+ features/steps/target_click_cart_icon.py      | 19 ++++
+ features/steps/target_logout.py               | 28 ++++++
+ features/steps/target_product_search.py       | 25 +++++
+ features/tests/__init__.py                    |  0
+ features/tests/cart.feature                   | 16 ++++
+ features/tests/help_tests.feature             | 13 +++
+ features/tests/product_details.feature        |  8 ++
+ features/tests/product_search.feature         |  7 ++
+ features/tests/search.feature                 | 24 +++++
+ features/tests/sign_in.feature                | 19 ++++
+ .../target_app_terms_conditions_test.feature  | 12 +++
+ features/tests/target_click_cart_icon.feature |  6 ++
+ features/tests/target_logout.feature          |  9 ++
+ features/tests/target_product_search.feature  | 21 ++++
+ pages/__init__.py                             |  0
+ pages/base_page.py                            | 65 +++++++++++++
+ pages/cart_page.py                            | 72 ++++++++++++++
+ pages/header.py                               | 28 ++++++
+ pages/help_page.py                            | 43 +++++++++
+ pages/main_page.py                            |  8 ++
+ pages/search_results_page.py                  | 26 +++++
+ pages/sign_in_page.py                         | 39 ++++++++
+ pages/target_app_page.py                      | 16 ++++
+ pages/terms_conditions_page.py                |  9 ++
+ requirements.txt                              |  4 +
+ sample_script.py                              | 33 +++++++
+ steps_list.txt                                | 49 ++++++++++
+ target_search_script.py                       | 29 ++++++
+ 48 files changed, 1219 insertions(+)
+ create mode 100644 .gitignore
+ create mode 100644 Homework_2.py
+ create mode 100644 Homework_3.py
+ create mode 100644 README.md
+ create mode 100644 app/__init__.py
+ create mode 100644 app/application.py
+ create mode 100755 features/__init__.py
+ create mode 100755 features/environment.py
+ create mode 100755 features/steps/__init__.py
+ create mode 100644 features/steps/cart_page_steps.py
+ create mode 100644 features/steps/header_steps.py
+ create mode 100644 features/steps/help_page_steps.py
+ create mode 100644 features/steps/main_page_steps.py
+ create mode 100644 features/steps/product_details_page_steps.py
+ create mode 100755 features/steps/product_search.py
+ create mode 100644 features/steps/search_results_page_steps.py
+ create mode 100644 features/steps/sign_in_steps.py
+ create mode 100644 features/steps/target_add_to_cart.py
+ create mode 100644 features/steps/target_app_page_steps.py
+ create mode 100644 features/steps/target_circle_page.py
+ create mode 100644 features/steps/target_click_cart_icon.py
+ create mode 100644 features/steps/target_logout.py
+ create mode 100644 features/steps/target_product_search.py
+ create mode 100755 features/tests/__init__.py
+ create mode 100644 features/tests/cart.feature
+ create mode 100644 features/tests/help_tests.feature
+ create mode 100644 features/tests/product_details.feature
+ create mode 100755 features/tests/product_search.feature
+ create mode 100644 features/tests/search.feature
+ create mode 100644 features/tests/sign_in.feature
+ create mode 100644 features/tests/target_app_terms_conditions_test.feature
+ create mode 100644 features/tests/target_click_cart_icon.feature
+ create mode 100644 features/tests/target_logout.feature
+ create mode 100644 features/tests/target_product_search.feature
+ create mode 100644 pages/__init__.py
+ create mode 100644 pages/base_page.py
+ create mode 100644 pages/cart_page.py
+ create mode 100644 pages/header.py
+ create mode 100644 pages/help_page.py
+ create mode 100644 pages/main_page.py
+ create mode 100644 pages/search_results_page.py
+ create mode 100644 pages/sign_in_page.py
+ create mode 100644 pages/target_app_page.py
+ create mode 100644 pages/terms_conditions_page.py
+ create mode 100755 requirements.txt
+ create mode 100755 sample_script.py
+ create mode 100644 steps_list.txt
+ create mode 100644 target_search_script.py
+
+diff --git a/.gitignore b/.gitignore
+new file mode 100644
+index 0000000..50c65bb
+--- /dev/null
++++ b/.gitignore
+@@ -0,0 +1,96 @@
++# Byte-compiled / optimized / DLL files
++__pycache__/
++*.py[cod]
++*$py.class
++
++# C extensions
++*.so
++
++# Distribution / packaging
++.Python
++build/
++develop-eggs/
++dist/
++downloads/
++eggs/
++.eggs/
++lib/
++lib64/
++parts/
++sdist/
++var/
++wheels/
++*.egg-info/
++.installed.cfg
++*.egg
++MANIFEST
++
++# PyInstaller
++#  Usually these files are written by a python script from a template
++#  before PyInstaller builds the exe, so as to inject date/other infos into it.
++*.manifest
++*.spec
++
++# Installer logs
++pip-log.txt
++pip-delete-this-directory.txt
++
++# Unit test / coverage reports
++htmlcov/
++.tox/
++.coverage
++.coverage.*
++.cache
++nosetests.xml
++coverage.xml
++*.cover
++.hypothesis/
++.pytest_cache/
++
++# PyBuilder
++target/
++
++# pyenv
++.python-version
++
++# Environments
++.env
++.venv
++env/
++venv/
++ENV/
++env.bak/
++venv.bak/
++
++# Spyder project settings
++.spyderproject
++.spyproject
++
++# Rope project settings
++.ropeproject
++
++# mkdocs documentation
++/site
++
++# mypy
++.mypy_cache/
++
++# idea
++.idea/
++*.iws/
++
++# logs
++*.log
++
++# app files
++app_binaries/
++*.apk
++*.app
++*.ipa
++
++.DS_Store
++
++/features/test_results/*
++
++# Screenshots
++*.png
+diff --git a/Homework_2.py b/Homework_2.py
+new file mode 100644
+index 0000000..780813b
+--- /dev/null
++++ b/Homework_2.py
+@@ -0,0 +1,18 @@
++from selenium import webdriver
++from selenium.webdriver.common.by import By
++from selenium.webdriver.chrome.service import Service
++from webdriver_manager.chrome import ChromeDriverManager
++from time import sleep
++
++# Practice with locators
++
++driver.find_element(By.ID, 'nav-logo-sprites') # Amazon logo
++driver.find_element(By.ID, 'ap_email' ) # Email field
++driver.find_element(By.ID, 'continue' ) # Continue button
++driver.find_element(By.XPATH, "//div[@id='legalTextRow']//a[text()='Conditions of Use']") # Conditions of use link
++driver.find_element(By.XPATH, "//div[@id='legalTextRow']//a[text()='Privacy Notice']") # Privacy Notice link
++driver.find_element(By.XPATH, "//span[@class='a-expander-prompt']") # Need help link
++driver.find_element(By.ID, 'auth-fpp-link-bottom') # Forgot your password link
++driver.find_element(By.ID, 'ap-other-signin-issues-link') # Other issues with Sign-In link
++driver.find_element(By.ID, 'createAccountSubmit') # Create your Amazon account button
++
+diff --git a/Homework_3.py b/Homework_3.py
+new file mode 100644
+index 0000000..3e4f039
+--- /dev/null
++++ b/Homework_3.py
+@@ -0,0 +1,13 @@
++# Practice with locators
++
++driver.find_element(By.ID, 'nav-bb-logo') # Amazon logo
++driver.find_element(By.CSS_SELECTOR, 'h1.a-spacing-small') # Create account
++driver.find_element(By.CSS_SELECTOR, "label[for='ap_customer_name'].a-form-label") # Your name
++driver.find_element(By.CSS_SELECTOR, "label[for='ap_email'].a-form-label") # Your email/phone number
++driver.find_element(By.CSS_SELECTOR, "label[for='ap_password'].a-form-label") # Your password
++driver.find_element(By.CSS_SELECTOR, "label[for='ap_password_check'].a-form-label") # Re-enter your password
++driver.find_element(By.ID, 'continue') # Continue
++driver.find_element(By.XPATH, "//div[@id='legalTextRow']//a[text()='Conditions of Use']") # Conditions of use link
++driver.find_element(By.XPATH, "//div[@id='legalTextRow']//a[text()='Privacy Notice']") # Privacy Notice link
++driver.find_element(By.ID, 'ra-sign-in-link') # Sign in instead
++
+diff --git a/README.md b/README.md
+new file mode 100644
+index 0000000..581349c
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1,4 @@
++# Careerist Test Automation repository
++written in
++### Python 3, Behave
++https://www.careerist.com/automation
+diff --git a/app/__init__.py b/app/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/app/application.py b/app/application.py
+new file mode 100644
+index 0000000..eb4a81c
+--- /dev/null
++++ b/app/application.py
+@@ -0,0 +1,25 @@
++from pages.base_page import Page
++from pages.cart_page import CartPage
++from pages.main_page import MainPage
++from pages.header import Header
++from pages.help_page import HelpPage
++from pages.search_results_page import SearchResultsPage
++from pages.target_app_page import TargetAppPage
++from pages.terms_conditions_page import TermsConditionsPage
++from pages.sign_in_page import SignInPage
++
++class Application:
++    def __init__(self, driver):
++        self.base_page = Page(driver)
++        self.cart_page = CartPage(driver)
++        self.header = Header(driver)
++        self.help_page = HelpPage(driver)
++        self.main_page = MainPage(driver)
++        self.search_results_page = SearchResultsPage(driver)
++        self.target_app_page = TargetAppPage(driver)
++        self.terms_conditions_page = TermsConditionsPage(driver)
++        self.sign_in = SignInPage(driver)
++
++#app = Application()
++#app.main_page.open_main_page()
++#app.header.search_product()
+diff --git a/features/__init__.py b/features/__init__.py
+new file mode 100755
+index 0000000..e69de29
+diff --git a/features/environment.py b/features/environment.py
+new file mode 100755
+index 0000000..bbb743e
+--- /dev/null
++++ b/features/environment.py
+@@ -0,0 +1,70 @@
++from selenium import webdriver
++from selenium.webdriver.chrome.service import Service
++from webdriver_manager.chrome import ChromeDriverManager
++from selenium.webdriver.support.wait import WebDriverWait
++from selenium.webdriver.chrome.options import Options
++
++from app.application import Application
++
++
++def browser_init(context, scenario_name):
++    """
++    :param context: Behave context
++    """
++    driver_path = ChromeDriverManager().install()
++    service = Service(driver_path)
++    context.driver = webdriver.Chrome()
++
++    ### SAFARI ###
++    # context.driver = webdriver.Firefox()
++    # context.driver = webdriver.Safari()
++
++    ### HEADLESS MODE ####
++    #options = webdriver.ChromeOptions()
++    #options.add_argument('headless')
++    #context.driver = webdriver.Chrome(
++    # options=options
++     #)
++
++    ### BROWSERSTACK ###
++    # Register for BrowserStack, then grab it from https://www.browserstack.com/accounts/settings
++    #bs_user ='traciporter_cm2f0g'
++    #bs_key = 'exVjc2Z8v5MpDFuQidp7'
++    #url = f'https://{bs_user}:{bs_key}@hub-cloud.browserstack.com/wd/hub'
++
++
++    #bstack_options = {
++     #"os" : "Windows",
++     #"osVersion" : "11",
++     #'browserName': 'Edge',
++     #'sessionName': scenario_name,
++     #"buildName": "Target Automation Build"
++     #}
++
++    #options = Options()
++    #options.set_capability('bstack:options', bstack_options)
++    #context.driver = webdriver.Remote(command_executor=url, options=options)
++
++
++    context.driver.maximize_window()
++    context.driver.implicitly_wait(4)
++    context.driver.wait = WebDriverWait(context.driver, timeout=10)
++    context.app = Application(context.driver)
++
++def before_scenario(context, scenario):
++    print('\nStarted scenario: ', scenario.name)
++    browser_init(context, scenario.name)
++
++
++def before_step(context, step):
++    print('\nStarted step: ', step)
++
++
++def after_step(context, step):
++    if step.status == 'failed':
++        print('\nStep failed: ', step)
++
++
++def after_scenario(context, feature):
++    context.driver.delete_all_cookies()
++    context.driver.quit()
+diff --git a/features/steps/__init__.py b/features/steps/__init__.py
+new file mode 100755
+index 0000000..e69de29
+diff --git a/features/steps/cart_page_steps.py b/features/steps/cart_page_steps.py
+new file mode 100644
+index 0000000..21e5ae0
+--- /dev/null
++++ b/features/steps/cart_page_steps.py
+@@ -0,0 +1,36 @@
++from selenium.webdriver.common.by import By
++from behave import given, when, then
++from selenium.webdriver.support.ui import WebDriverWait
++from selenium.webdriver.support import expected_conditions as EC
++from time import sleep
++
++ADD_TO_CART = (By.CSS_SELECTOR, "[data-test='orderPickupButton']")
++
++
++@given('Open Target page')
++def open_target(context):
++    context.driver.get('https://www.target.com/')
++
++@when('Click Target product A-92785491 page')
++def open_target(context):
++    context.driver.get(f'https://www.target.com/p/tazo-tea/-/A-92785491?preselect=16227390#lnk=sametab')
++
++@when('Click the add to cart button')
++def click_cart_button(context):
++    context.app.cart_page.click_cart_button()
++    sleep(3)
++
++@when("Click 'View cart & check out' button")
++def click_checkout_button(context):
++    context.app.cart_page.click_checkout_button()
++
++@then('Verify product is in cart')
++def verify_product_in_cart(context):
++    context.app.cart_page.verify_product_in_cart()
++
++@then("Verify 'Your cart is empty' message is shown")
++def verify_cart_empty(context):
++    context.app.cart_page.verify_cart_empty()
++
++
++
+diff --git a/features/steps/header_steps.py b/features/steps/header_steps.py
+new file mode 100644
+index 0000000..37b5c03
+--- /dev/null
++++ b/features/steps/header_steps.py
+@@ -0,0 +1,40 @@
++from selenium.webdriver.common.by import By
++from behave import given, when, then
++from time import sleep
++
++SEARCH_FIELD = (By.ID, 'search')
++SEARCH_BTN = (By.XPATH, "//button[@data-test='@web/Search/SearchButton']")
++CART_ICON = (By.CSS_SELECTOR, "[data-test='@web/CartLink']")
++HEADER_LINKS = (By.CSS_SELECTOR, "[data-test* = '@web/GlobalHeader/UtilityHeader/']")
++LISTINGS = (By.CSS_SELECTOR, "[data-test='@web/site-top-of-funnel/Product']")
++PRODUCT_TITLE = (By.CSS_SELECTOR, "[data-test='product-title']")
++PRODUCT_IMG = (By.CSS_SELECTOR, 'img')
++
++@when('Search for {search_word}')
++def search_product(context, search_word):
++    #context.driver.find_element(By.ID, 'search').send_keys(search_word)
++    #context.driver.find_element(By.XPATH, "//button[@data-test='@web/Search/SearchButton']").click()
++    #sleep(5)
++    context.app.header.search_product()
++
++@when('Click Sign In')
++def click_sign_in(context):
++    context.app.header.click_sign_in()
++
++@when('Click Sign In from side nav menu')
++def click_side_nav(context):
++    context.app.header.click_side_nav()
++
++@when('Click on Cart icon')
++def click_cart(context):
++    context.app.header.click_cart()
++
++
++@then('Verify header has {number} links')
++def verify_header_links(context, number):
++    print(type(number))
++    links = context.driver.find_elements(By.CSS_SELECTOR, "[data-test*='@web/GlobalHeader/UtilityHeader/']")
++    print(links)
++
++    # 6 == 6
++    assert len(links) == int(number), f'Expected {number} links but got {len(links)}'
+diff --git a/features/steps/help_page_steps.py b/features/steps/help_page_steps.py
+new file mode 100644
+index 0000000..0c8375d
+--- /dev/null
++++ b/features/steps/help_page_steps.py
+@@ -0,0 +1,26 @@
++from behave import given, when, then
++
++
++@given('Open Help page for Returns')
++def click_cart(context):
++    context.app.help_page.open_help_returns()
++
++
++@when('Select Help topic Gift Cards')
++def select_giftcards(context):
++    context.app.help_page.select_giftcards()
++
++
++#@then('Verify help {expected_header_text} page opened')
++#def verify_help_page_opened(context, expected_header_text):
++#    context.app.help_page.verify_help_page_opened(expected_header_text)
++
++
++@then('Verify help Returns page opened')
++def verify_returns_opened(context):
++    context.app.help_page.verify_returns_opened()
++
++
++@then('Verify help Target GiftCard balance page opened')
++def verify_giftcards_opened(context):
++    context.app.help_page.verify_giftcards_opened()
+\ No newline at end of file
+diff --git a/features/steps/main_page_steps.py b/features/steps/main_page_steps.py
+new file mode 100644
+index 0000000..2c1fb9a
+--- /dev/null
++++ b/features/steps/main_page_steps.py
+@@ -0,0 +1,8 @@
++from selenium.webdriver.common.by import By
++from behave import given, when, then
++from time import sleep
++
++@given('Open target main page')
++def open_main(context):
++    #context.driver.get('https://www.target.com/')
++    context.app.main_page.open_main_page()
+diff --git a/features/steps/product_details_page_steps.py b/features/steps/product_details_page_steps.py
+new file mode 100644
+index 0000000..dee4e92
+--- /dev/null
++++ b/features/steps/product_details_page_steps.py
+@@ -0,0 +1,35 @@
++from selenium.webdriver.common.by import By
++from behave import given, when, then
++from time import sleep
++from selenium.webdriver.chrome.service import Service
++from selenium.webdriver.support.ui import WebDriverWait
++from selenium.webdriver.support import expected_conditions as EC
++
++COLOR_OPTIONS = (By.CSS_SELECTOR, "li[class*='CarouselItem'] img")
++SELECTED_COLOR = (By.CSS_SELECTOR, ".styles_headerWrapper__Xzdtg")
++
++@given('Open target product A-94299326 page')
++def open_target(context):
++    context.driver.get(f'https://www.target.com/p/women-s-short-sleeve-button-down-t-shirt-universal-thread/-/A-94299326?preselect=94264668#lnk=sametab')
++    sleep(4)
++
++@then('Verify user can click through colors')
++def click_and_verify_colors(context):
++    expected_colors = ['Black', 'Heather Gray', 'Olive Green', 'Pink']
++    actual_colors = []
++
++    colors = context.driver.find_elements(*COLOR_OPTIONS) #[webelement1, webelement2, webelement3, webelement4]
++    print(colors)
++
++    for color in colors:
++        color.click()
++
++        selected_color = context.driver.find_element(*SELECTED_COLOR).text
++        print('Current color', selected_color)
++
++        selected_color = selected_color.split('\n')[1]
++        actual_colors.append(selected_color)
++        print(actual_colors)
++
++    assert expected_colors == actual_colors, f'Expected {expected_colors} did not match actual {actual_colors}'
++
+diff --git a/features/steps/product_search.py b/features/steps/product_search.py
+new file mode 100755
+index 0000000..be53921
+--- /dev/null
++++ b/features/steps/product_search.py
+@@ -0,0 +1,32 @@
++from selenium.webdriver.common.by import By
++from behave import given, when, then
++from time import sleep
++
++
++SEARCH_INPUT = (By.NAME, 'q')
++SEARCH_SUBMIT = (By.NAME, 'btnK')
++
++
++@given('Open Google page')
++def open_google(context):
++    context.driver.get('https://www.google.com/')
++
++
++#@when('Input {search_word} into search field')
++#def input_search(context, search_word):
++#    search = context.driver.find_element(*SEARCH_INPUT)
++#    search.clear()
++#    search.send_keys(search_word)
++#    sleep(4)
++
++
++#@when('Click on search icon')
++#def click_search_icon(context):
++#    context.driver.find_element(*SEARCH_SUBMIT).click()
++#    sleep(1)
++
++
++#@then('Product results for {search_word} are shown')
++#def verify_found_results_text(context, search_word):
++#    assert search_word.lower() in context.driver.current_url.lower(), \
++#        f'Expected query not in {context.driver.current_url.lower()}'
+diff --git a/features/steps/search_results_page_steps.py b/features/steps/search_results_page_steps.py
+new file mode 100644
+index 0000000..85238ce
+--- /dev/null
++++ b/features/steps/search_results_page_steps.py
+@@ -0,0 +1,44 @@
++from selenium.webdriver.common.by import By
++from selenium.webdriver.support import expected_conditions as EC
++from behave import given, when, then
++from selenium.webdriver.support.ui import WebDriverWait
++from selenium.webdriver.common.action_chains import ActionChains
++from time import sleep
++
++ADD_TO_CART_BTN = (By.CSS_SELECTOR, "[id*='addToCartButton']")
++SIDE_NAV_ADD_TO_CART_BTN = (By.CSS_SELECTOR, "[data-test='content-wrapper'][id*='addToCart']")
++SEARCH_RESULTS_TXT = (By.XPATH, "//div[@data-test='lp-resultsCount']")
++SIDE_NAV_PRODUCT_NAME = (By.CSS_SELECTOR, "[data-test='content-wrapper']h4")
++
++#@when('Click on Add to Cart button')
++#def click_add_to_cart(context):
++#    context.driver.find_element(*ADD_TO_CART_BTN).click()
++#    context.driver.wait.until(EC.visibility_of_element_located(SIDE_NAV_PRODUCT_NAME), message='Product name was not visible')
++    #   sleep(3)
++
++
++@when('Store product name')
++def store_product_name(context):
++    context.product_name = context.driver.find_element(*SIDE_NAV_PRODUCT_NAME).text
++    print('Product name stored:' ',context.product_name')
++
++#@when('Confirm Add to Cart button from side navigation')
++#def side_nav_click_add_to_cart(context):
++#    context.driver.wait.until(EC.element_to_be_clickable(SIDE_NAV_ADD_TO_CART_BTN)).click()
++
++@when('Hover favorites icon')
++def hover_fav_icon(context):
++    context.app.search_results_page.hover_fav_icon()
++
++@then('Verify search worked for {product}')
++def verify_search_results(context, product):
++    context.app.search_results_page.verify_search_results(product)
++
++@then('Favorites tooltip is shown')
++def verify_fav_tt_shown(context):
++    context.app.search_results_page.verify_fav_tt_shown()
++
++@then('Verify cart is empty')
++def cart_is_empty(context):
++    context.app.search_results_page.cart_is_empty()
++
+diff --git a/features/steps/sign_in_steps.py b/features/steps/sign_in_steps.py
+new file mode 100644
+index 0000000..a22c90b
+--- /dev/null
++++ b/features/steps/sign_in_steps.py
+@@ -0,0 +1,37 @@
++from selenium.webdriver.common.by import By
++from behave import given, when, then
++from time import sleep
++
++VERIFY_SIGN_IN = (By.CSS_SELECTOR, "h1[class*='styles_ndsHeading']")
++
++
++@when('Enter valid email address')
++def enter_email_address(context):
++    context.app.sign_in.enter_email_address()
++
++@when('Click continue')
++def click_continue(context):
++
++    sleep(3)
++
++@when('Click Create account with password')
++def click_account_with_password(context):
++    context.app.sign_in.click_account_with_password()
++
++@when('Enter incorrect password')
++def enter_incorrect_password(context):
++    context.app.sign_in.enter_incorrect_password()
++
++
++@when('Click sign in with incorrect password')
++def click_sign_in(context):
++    context.driver.find_element(By.ID, "login").click()
++    sleep(5)
++
++@then('Verify error message displays')
++def sign_in_password(context):
++    context.app.sign_in.sign_in_password()
++
++@then('Verify Sign in form opens')
++def verify_sign_in(context):
++    context.app.sign_in.verify_sign_in()
+\ No newline at end of file
+diff --git a/features/steps/target_add_to_cart.py b/features/steps/target_add_to_cart.py
+new file mode 100644
+index 0000000..66fc665
+--- /dev/null
++++ b/features/steps/target_add_to_cart.py
+@@ -0,0 +1,63 @@
++from selenium.webdriver.common.by import By
++from behave import given, when, then
++from time import sleep
++from selenium import webdriver
++from selenium.webdriver.chrome.service import Service
++from selenium.webdriver.support.ui import WebDriverWait
++from selenium.webdriver.support import expected_conditions as EC
++
++#init driver
++driver = webdriver.Chrome()
++driver.maximize_window()
++driver.implicitly_wait(5)
++
++#Locators
++PRODUCT_NAME = (By.CSS_SELECTOR, "[data-test='orderPickupButton']")
++PRODUCT_OPTIONS = (By.XPATH,
++     "//button[@data-test='orderPickupButton' and @id='addToCartButtonOrTextIdFor90296387']")
++VIEW_CART = (By.XPATH, "//a[contains(text(), 'View cart')]")
++VERIFY_PRODUCT = (By.XPATH, "//div[@data-test='cartItem-title']")
++
++#def safe_click(driver, by, locator, timeout=10):
++    #element = WebDriverWait(driver, timeout).until(
++    #    EC.element_to_be_clickable((by, locator))
++    #)
++    #driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
++    #driver.execute_script("arguments[0].click();", element)
++
++#@when('Click the add to cart button')
++#def click_add_cart(context):
++#    context.driver.find_element(*PRODUCT_NAME).click()
++#    #   sleep(3)
++
++@when('Choose options and add to cart')
++def choose_options(context):
++    context.driver.find_element(*PRODUCT_OPTIONS).click()
++   # sleep(3)
++
++@when('Click view cart')
++def click_view_cart(context):
++    print("Running 'Click view cart' step")
++    WebDriverWait(context.driver, 10).until(
++        EC.element_to_be_clickable(VIEW_CART)
++    ).click()
++    # sleep(3)
++
++@then("Verify 'V8 +Energy Summertime Watermelon Energy Drink - 6pk/8 fl oz Cans' is in the cart")
++def verify_product_in_cart(context):
++    actual_product = WebDriverWait(context.driver, 10).until(
++        EC.visibility_of_element_located(VERIFY_PRODUCT)
++    ).text
++
++    expected = "V8 +Energy Summertime Watermelon Energy Drink - 6pk/8 fl oz Cans".lower().strip()
++    actual = actual_product.lower().strip()
++    assert expected in actual, f'Expected product "{expected}" not found in cart. Found "{actual_product}" instead.'
++
++#@then("Verify product is in cart")
++#def verify_product_in_cart(context):
++#    actual_product = WebDriverWait(context.driver, 10).until(
++#        EC.visibility_of_element_located(VERIFY_PRODUCT)
++#    ).text
++#    expected = 'Tazo Tea'
++#    actual_product = actual_product.lower().strip()
++#    assert expected in actual_product, f'Expected product "{expected}" not found in cart. Found "{actual_product}" instead.'
+\ No newline at end of file
+diff --git a/features/steps/target_app_page_steps.py b/features/steps/target_app_page_steps.py
+new file mode 100644
+index 0000000..ac73150
+--- /dev/null
++++ b/features/steps/target_app_page_steps.py
+@@ -0,0 +1,29 @@
++from behave import given, when, then
++from selenium.webdriver.support.ui import WebDriverWait
++from selenium.webdriver.support import expected_conditions as EC
++
++@given('Open sign in page')
++def open_target_sign_in_page(context):
++    context.app.target_app_page.open_target_sign_in_page()
++
++@when('Store original window')
++def store_window(context):
++    context.original_window = context.app.target_app_page.get_current_window_id()
++
++@when('Click on Target terms and conditions link')
++def click_terms_conditions_link(context):
++    context.old_windows = context.driver.window_handles  # 🟢 Capture BEFORE click
++    context.app.target_app_page.click_terms_conditions_link()
++
++@when('Switch to the newly opened window')
++def switch_to_new_window(context):
++    context.app.base_page.switch_to_new_window(context.old_windows)
++
++@then('Verify Terms and Conditions page is opened')
++def verify_tc_opened(context):
++    context.app.terms_conditions_page.verify_tc_opened()
++
++
++@then('User can close new window and switch back to original')
++def close_window(context):
++    context.app.base_page.close_window()
+diff --git a/features/steps/target_circle_page.py b/features/steps/target_circle_page.py
+new file mode 100644
+index 0000000..5b77f5d
+--- /dev/null
++++ b/features/steps/target_circle_page.py
+@@ -0,0 +1,15 @@
++from selenium.webdriver.common.by import By
++from behave import given, when, then
++from time import sleep
++
++@when('Open Target Circle page')
++def open_target(context):
++    context.driver.get('https://www.target.com/circle')
++
++@then('Verify Circle page has {number} or more cells')
++def verify_circle_page_cells(context, number):
++    print(type(number))
++    cells = context.driver.find_elements(By.CSS_SELECTOR, "[data-test*='@web/slingshot-components/CellsComponent/Link']")
++    print(cells)
++
++    assert len(cells) >= 10, f'Expected at least {number} cells but got {len(cells)}'
+diff --git a/features/steps/target_click_cart_icon.py b/features/steps/target_click_cart_icon.py
+new file mode 100644
+index 0000000..f2512f7
+--- /dev/null
++++ b/features/steps/target_click_cart_icon.py
+@@ -0,0 +1,19 @@
++from selenium.webdriver.common.by import By
++from behave import given, when, then
++from time import sleep
++
++
++#@given('Open Target page')
++#def open_target(context):
++#    context.driver.get('https://www.target.com/')
++
++#@when('Click on cart icon')
++#def click_cart_icon(context):
++#    context.driver.find_element(By.XPATH, "//div[@data-test='@web/CartIcon']").click()
++#    sleep(5)
++
++@then('Cart is empty')
++def cart_is_empty(context):
++    message_element = context.driver.find_element(By.XPATH, "//h1[text()='Your cart is empty']")
++    assert message_element.text == "Your cart is empty"
++    sleep(10)
+\ No newline at end of file
+diff --git a/features/steps/target_logout.py b/features/steps/target_logout.py
+new file mode 100644
+index 0000000..020d72c
+--- /dev/null
++++ b/features/steps/target_logout.py
+@@ -0,0 +1,28 @@
++from selenium.webdriver.common.by import By
++from behave import given, when, then
++from time import sleep
++
++CLICK_ACCOUNT = (By.XPATH, "//a[@id='account-sign-in']")
++SIGN_IN = (By.XPATH, "//button[@data-test='accountNav-signIn']")
++OPENED_SIGN_IN_FORM = (By.XPATH, "//h1[text()='Sign in or create account']")
++
++
++@when('Click on Account')
++def click_account_icon(context):
++    context.driver.find_element(*CLICK_ACCOUNT).click()
++    sleep(2)
++
++@when('Click on sign in')
++def click_sign_in_icon(context):
++    context.driver.find_element(*SIGN_IN).click()
++    sleep(2)
++
++@then('Open sign in form')
++def open_sign_in_form(context):
++    message_element = context.driver.find_element(*OPENED_SIGN_IN_FORM)
++    assert message_element.text == "Sign in or create account"
++    print('Test case passed')
++
++
++
++
+diff --git a/features/steps/target_product_search.py b/features/steps/target_product_search.py
+new file mode 100644
+index 0000000..4073b8c
+--- /dev/null
++++ b/features/steps/target_product_search.py
+@@ -0,0 +1,25 @@
++from selenium.webdriver.common.by import By
++from behave import given, when, then
++from time import sleep
++
++# Target product
++@when('Input {word} into search field')
++def input_search_word(context, word):
++    search = context.driver.find_element(By.XPATH, "//input[@data-test='@web/Search/SearchInput']")
++    search.clear()
++    search.send_keys(word)
++    sleep(2)
++
++
++@when('Click on search icon')
++def click_search_icon(context):
++    context.driver.find_element(By.XPATH, "//button[@data-test='@web/Search/SearchButton']").click()
++    sleep(1)
++
++@then('Product results for {word} are shown')
++def verify_results_text(context, word):
++    expected_text = {word}
++    actual_text = context.driver.find_element(By.XPATH, "//div[@data-test='lp-resultsCount']").text
++
++    assert word.lower() in actual_text.lower(), f'Error, expected "{word}" not in actual "{actual_text}"'
++
+diff --git a/features/tests/__init__.py b/features/tests/__init__.py
+new file mode 100755
+index 0000000..e69de29
+diff --git a/features/tests/cart.feature b/features/tests/cart.feature
+new file mode 100644
+index 0000000..025de13
+--- /dev/null
++++ b/features/tests/cart.feature
+@@ -0,0 +1,16 @@
++
++
++Feature: Cart tests
++
++  Scenario: 'Your cart is empty' message is shown for empty cart
++    Given Open Target page
++    When Click on Cart icon
++    Then Verify 'Your cart is empty' message is shown
++
++
++  Scenario: Add a product to cart
++    Given Open Target page
++    When Click Target product A-92785491 page
++    When Click the add to cart button
++    When Click 'View cart & check out' button
++    Then Verify product is in cart
+\ No newline at end of file
+diff --git a/features/tests/help_tests.feature b/features/tests/help_tests.feature
+new file mode 100644
+index 0000000..ff8dfae
+--- /dev/null
++++ b/features/tests/help_tests.feature
+@@ -0,0 +1,13 @@
++Feature: Tests for Help pages
++
++  Scenario: User can select Help topic Gift Cards
++    Given Open Help page for Returns
++    Then Verify help Returns page opened
++    When Select Help topic Gift Cards
++    Then Verify help Target GiftCard balance page opened
++
++  Scenario: User can select Help topic Target Circle™
++    Given Open Help page for Returns
++    Then Verify help Returns page opened
++    When Select Help topic Target Circle™
++    Then Verify help About Target Circle page opened
+\ No newline at end of file
+diff --git a/features/tests/product_details.feature b/features/tests/product_details.feature
+new file mode 100644
+index 0000000..27d8765
+--- /dev/null
++++ b/features/tests/product_details.feature
+@@ -0,0 +1,8 @@
++# Created by porter at 6/10/25
++Feature: Tests for product page
++
++  Scenario: User can select colors
++    Given Open target product A-94299326 page
++    Then Verify user can click through colors
++
++    
+\ No newline at end of file
+diff --git a/features/tests/product_search.feature b/features/tests/product_search.feature
+new file mode 100755
+index 0000000..36d6913
+--- /dev/null
++++ b/features/tests/product_search.feature
+@@ -0,0 +1,7 @@
++Feature: Test Scenarios for Search functionality
++
++  Scenario: User can search for a product
++    Given Open Google page
++    When Input Car into search field
++    And Click on search icon
++    Then Product results for Car are shown
+\ No newline at end of file
+diff --git a/features/tests/search.feature b/features/tests/search.feature
+new file mode 100644
+index 0000000..c2173f5
+--- /dev/null
++++ b/features/tests/search.feature
+@@ -0,0 +1,24 @@
++# Created by porter at 6/13/25
++Feature: Tests for Target Search
++  # Enter feature description here
++
++  Scenario: User can search for tea
++    Given Open Target main page
++    When Search for tea
++    Then Verify search worked for tea
++
++  Scenario: Verify that user can see product names and images
++    Given Open Target main page
++    When Search for Airpods
++    Then Verify that every product has a name and an image
++
++  Scenario: User can see favorites tooltip for search results
++    Given Open Target main page
++    When Search for tea
++    And Hover favorites icon
++    Then Favorites tooltip is shown
++
++ # Scenario: User can search for a product
++ #   Given Open Target main page
++ #   When Input 'V8 +Energy Summertime Watermelon Energy Drink - 6pk/8 fl oz Cans' into search field
++ #   When Click on search icon
+\ No newline at end of file
+diff --git a/features/tests/sign_in.feature b/features/tests/sign_in.feature
+new file mode 100644
+index 0000000..8a3021d
+--- /dev/null
++++ b/features/tests/sign_in.feature
+@@ -0,0 +1,19 @@
++# Created by porter at 6/17/25
++Feature: SignIn tests
++
++  Scenario: 'Verify user can sign in'
++    Given Open Target page
++    When Click Sign In
++    When Click Sign In from side nav menu
++    Then Verify Sign in form opens
++
++
++  Scenario: 'Verify error message displays when user enters an incorrect password'
++    Given Open Target page
++    When Click Sign In
++    When Click Sign In from side nav menu
++    When Enter valid email address
++    When Click Create account with password
++    When Enter incorrect password
++    When Click Create account with password
++    Then Verify error message displays
+\ No newline at end of file
+diff --git a/features/tests/target_app_terms_conditions_test.feature b/features/tests/target_app_terms_conditions_test.feature
+new file mode 100644
+index 0000000..4463350
+--- /dev/null
++++ b/features/tests/target_app_terms_conditions_test.feature
+@@ -0,0 +1,12 @@
++# Created by porter at 6/20/25
++Feature: Test for Target Terms and Conditions
++  # Enter feature description here
++
++  Scenario: User can open and close Terms and Conditions from sign in page
++    Given Open sign in page
++    When Store original window
++    And Click on Target terms and conditions link
++    And Switch to the newly opened window
++    Then Verify Terms and Conditions page is opened
++    Then User can close new window and switch back to original
++    # Enter steps here
+\ No newline at end of file
+diff --git a/features/tests/target_click_cart_icon.feature b/features/tests/target_click_cart_icon.feature
+new file mode 100644
+index 0000000..b142d21
+--- /dev/null
++++ b/features/tests/target_click_cart_icon.feature
+@@ -0,0 +1,6 @@
++Feature: View Empty Cart on Target.com
++
++  Scenario: User can verify when the cart is empty
++    Given Open Target page
++    When Click on cart icon
++    Then Cart is empty
+\ No newline at end of file
+diff --git a/features/tests/target_logout.feature b/features/tests/target_logout.feature
+new file mode 100644
+index 0000000..d9df72c
+--- /dev/null
++++ b/features/tests/target_logout.feature
+@@ -0,0 +1,9 @@
++# Created by porter at 6/2/25
++Feature: Verify sign in for logged out users
++  # verify a logged out user can navigate to Sign In
++
++  Scenario: Logged out user can navigate to Sign In
++    Given Open Target page
++    When Click on Account
++    And Click on sign in
++    Then Open sign in form
+\ No newline at end of file
+diff --git a/features/tests/target_product_search.feature b/features/tests/target_product_search.feature
+new file mode 100644
+index 0000000..67ef0f9
+--- /dev/null
++++ b/features/tests/target_product_search.feature
+@@ -0,0 +1,21 @@
++Feature: Test Scenarios for Search functionality
++
++  Scenario: User can search for a product
++    Given Open Target page
++    When Input 'Pencil' into search field
++    When Click on search icon
++    Then Product results for 'Pencil' are shown
++
++  Scenario: Verify number of benefit cells
++    Given Open Target page
++    When Open Target Circle page
++    Then Verify Circle page has '10' or more cells
++
++  Scenario: User can add a product to the cart
++    Given Open Target page
++    When Input 'V8 +Energy Summertime Watermelon Energy Drink - 6pk/8 fl oz Cans' into search field
++    When Click on search icon
++    When Click the add to cart button
++    When Choose options and add to cart
++    When Click view cart
++    Then Verify 'V8 +Energy Summertime Watermelon Energy Drink - 6pk/8 fl oz Cans' is in the cart
+\ No newline at end of file
+diff --git a/pages/__init__.py b/pages/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/pages/base_page.py b/pages/base_page.py
+new file mode 100644
+index 0000000..bc3faa9
+--- /dev/null
++++ b/pages/base_page.py
+@@ -0,0 +1,65 @@
++from selenium.webdriver.support import expected_conditions as EC
++from selenium.webdriver.support.ui import WebDriverWait
++from selenium.common.exceptions import TimeoutException
++from selenium.webdriver.common.action_chains import ActionChains
++from time import sleep
++
++class Page:
++    def __init__(self, driver):
++        self.driver = driver
++        self.wait = WebDriverWait(self.driver, 20)
++
++
++    def find_element(self, *locator):
++        return self.driver.find_element(*locator)
++
++    #def click(self, *locator):
++    #    self.driver.find_element(*locator).click()
++
++    def click(self, by, locator):
++        element = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((by, locator)))
++        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
++        try:
++            element.click()
++        except Exception as e:
++            print(f"Click intercepted: {e}, trying JS click")
++            self.driver.execute_script("arguments[0].click();", element)
++
++    def input_text(self, text, *locator):
++        self.driver.find_element(*locator).send_keys(text)
++
++    def hover_element(self, *locator):
++        element = self.find_element(*locator)
++        actions = ActionChains(self.driver)
++        actions.move_to_element(element).click().perform()
++
++    def wait_for_url_contains(self, partial_url):
++        self.wait.until(EC.url_contains(partial_url))
++
++    def wait_for_element(self, locator, timeout=10):
++        return WebDriverWait(self.driver, timeout).until(
++            EC.visibility_of_element_located(locator),
++            message=f'Element by {locator} not visible'
++        )
++
++    def get_current_window_id(self):
++        window = self.driver.current_window_handle
++        print(f'Original window: {window}')
++        return window
++
++    def switch_to_new_window(self, old_handles):
++        self.wait.until(lambda d: len(d.window_handles) > len(old_handles))
++        new_window = [w for w in self.driver.window_handles if w not in old_handles][0]
++        print(f"Switching to new window: {new_window}")
++        self.driver.switch_to.window(new_window)
++
++    def switch_to_window_by_id(self, window_id):
++        print(f'Switching to window: {window_id}')
++        self.driver.switch_to.window(window_id)
++
++    def close_window(self):
++        self.driver.close()
++
++    def verify_text(self, expected_text, *locator):
++        actual_text = self.driver.find_element(*locator).text
++        assert expected_text == actual_text
+\ No newline at end of file
+diff --git a/pages/cart_page.py b/pages/cart_page.py
+new file mode 100644
+index 0000000..269510b
+--- /dev/null
++++ b/pages/cart_page.py
+@@ -0,0 +1,72 @@
++from selenium.webdriver.common.by import By
++from selenium.webdriver.support.ui import WebDriverWait
++from selenium.webdriver.support import expected_conditions as EC
++from selenium.common.exceptions import TimeoutException
++from selenium.common.exceptions import ElementClickInterceptedException
++from features.steps.header_steps import SEARCH_FIELD, CART_ICON
++from time import sleep
++
++from pages.base_page import Page
++
++class CartPage(Page):
++    CART_EMPTY_MSG = (By.CSS_SELECTOR, "[data-test='boxEmptyMsg']")
++    CART_MSG = (By.CSS_SELECTOR, "[data-test='cartItem-title']")
++    CART_CHECKOUT_BUTTON = (By.CSS_SELECTOR, "a[href='/cart']")
++    CART_ICON = (By.CSS_SELECTOR, "[data-test='@web/CartLink']")
++    ADD_TO_CART = (By.CSS_SELECTOR, "[data-test='orderPickupButton']")
++
++    def click_cart_button(self):
++        self.click(*self.ADD_TO_CART)
++        sleep(5)
++        #element = WebDriverWait(self.driver, 10).until(
++        #    EC.visibility_of_element_located(self.ADD_TO_CART)
++        #)
++        ##self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
++        #element.click()
++
++    def wait_for_overlay_to_disappear(self, timeout=10):
++        try:
++            WebDriverWait(self.driver, 10).until(
++                EC.invisibility_of_element_located((By.CSS_SELECTOR, ".overlay, .spinner, .modal"))
++            )
++        except TimeoutException:
++            pass
++
++    def click_checkout_button(self):
++        # Wait for overlays to disappear before trying to click
++        self.wait_for_overlay_to_disappear()
++
++        # Wait for the checkout button to be clickable
++        element = WebDriverWait(self.driver, 10).until(
++            EC.element_to_be_clickable(self.CART_CHECKOUT_BUTTON)
++        )
++
++        # Scroll it into view
++        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
++
++        # Try clicking normally
++        try:
++            element.click()
++        except Exception as e:
++            print(f"Click intercepted or failed: {e}. Using JS click fallback.")
++            self.driver.execute_script("arguments[0].click();", element)
++
++    def verify_product_in_cart(self):
++        self.wait_for_overlay_to_disappear()
++
++        element = WebDriverWait(self.driver, 10).until(
++            EC.visibility_of_element_located(self.CART_MSG)
++        )
++
++        actual_text = element.text.strip().lower()
++        expected_text = 'tazo skinny latte chai black tea concentrate'
++
++        assert expected_text in actual_text, (
++            f"Error: Expected product '{expected_text}' not found in cart.\n"
++            f"Actual text found: '{actual_text}'"
++        )
++
++    def verify_cart_empty(self):
++        actual_text = self.find_element(*self.CART_EMPTY_MSG).text
++        expected_test = 'Your cart is empty'
++        assert actual_text == expected_test, f"Error, expected {expected_test} but got actual {actual_text}"
+\ No newline at end of file
+diff --git a/pages/header.py b/pages/header.py
+new file mode 100644
+index 0000000..5a1fab7
+--- /dev/null
++++ b/pages/header.py
+@@ -0,0 +1,28 @@
++from features.steps.header_steps import SEARCH_FIELD, CART_ICON
++from pages.base_page import Page
++from selenium.webdriver.common.by import By
++
++
++class Header(Page):
++    SEARCH_FIELD = (By.ID, 'search')
++    SEARCH_BTN = (By.XPATH, "//button[@data-test='@web/Search/SearchButton']")
++    CART_ICON = (By.CSS_SELECTOR, "[data-test='@web/CartLink']")
++    ACCOUNT_BTN = (By.CSS_SELECTOR, "[data-test='@web/AccountLink']")
++    SIGN_IN = (By.CSS_SELECTOR, "[data-test='accountNav-signIn']")
++    EMAIL_FIELD = (By.ID, 'username')
++    CONTINUE_BTN = (By.ID, 'login')
++
++
++    def search_product(self):
++        self.input_text('tea', *self.SEARCH_FIELD)
++        self.click(*self.SEARCH_BTN)
++
++    def click_cart(self):
++        self.click(*self.CART_ICON)
++
++    def click_sign_in(self):
++        self.click(*self.ACCOUNT_BTN)
++
++    def click_side_nav(self):
++        self.click(*self.SIGN_IN)
++        #self.input_text('traciporter@hotmail.com','*self.EMAIL_FIELD)
+\ No newline at end of file
+diff --git a/pages/help_page.py b/pages/help_page.py
+new file mode 100644
+index 0000000..2afdac5
+--- /dev/null
++++ b/pages/help_page.py
+@@ -0,0 +1,43 @@
++from selenium.webdriver.common.by import By
++from selenium.webdriver.support.ui import Select
++from time import sleep
++from pages.base_page import Page
++
++
++
++
++class HelpPage(Page):
++    RETURNS_HEADER = (By.XPATH, "//h1[text()=' Returns']")
++    GIFTCARD_HEADER = (By.XPATH, "//h1[text()=' Target GiftCard balance']")
++    HEADER = (By.XPATH, "//h1[text()=' {SUBSTR}']")
++    SELECT_DD = (By.CSS_SELECTOR, "select[id*='viewHelpTopics']")
++
++
++    # Dynamic locator => generating locator during TC execution
++    # if expected_text = Returns:
++    # (By.XPATH, "//h1[text()=' {SUBSTR}']") => (By.XPATH, "//h1[text()=' Returns']")
++    def _get_header_locator(self, expected_text):
++        return [self.HEADER[0], self.HEADER[1].replace('{SUBSTR}', expected_text)]
++
++
++    def open_help_returns(self):
++        self.driver.get('https://help.target.com/help/SubCategoryArticle?childcat=Returns&parentcat=Returns+%26+Exchanges')
++        sleep(3)
++
++
++    def select_giftcards(self):
++        dd = self.find_element(*self.SELECT_DD)
++        select = Select(dd)
++        select.select_by_value(value='Gift Cards')
++
++
++    def verify_help_page_opened(self, expected_text):
++        locator = self._get_header_locator(expected_text)
++        self.wait_for_element(*locator)
++
++
++    def verify_returns_opened(self):
++        self.wait_for_element(self.RETURNS_HEADER)
++
++    def verify_giftcards_opened(self):
++        self.wait_for_element(self.GIFTCARD_HEADER)
+\ No newline at end of file
+diff --git a/pages/main_page.py b/pages/main_page.py
+new file mode 100644
+index 0000000..7e436e8
+--- /dev/null
++++ b/pages/main_page.py
+@@ -0,0 +1,8 @@
++from pages.base_page import Page
++
++class MainPage(Page):
++    def open_main_page(self):
++        self.driver.get('https://www.target.com/')
++
++    def open_product_page(self):
++        self.driver.get('https://www.target.com/p/tazo-tea/-/A-92785491?preselect=16227390#lnk=sametab')
+diff --git a/pages/search_results_page.py b/pages/search_results_page.py
+new file mode 100644
+index 0000000..fd7fd1b
+--- /dev/null
++++ b/pages/search_results_page.py
+@@ -0,0 +1,26 @@
++from selenium.webdriver.common.by import By
++#from features.steps.search_results_page_steps import SEARCH_RESULTS_TXT
++#from selenium.webdriver.support.ui import WebDriverWait
++#from selenium.webdriver.support import expected_conditions as EC
++from pages.base_page import Page
++#from time import sleep
++
++class SearchResultsPage(Page):
++    SEARCH_RESULTS_TXT = (By.XPATH, "//div[@data-test='lp-resultsCount']")
++    SEARCH_CART = (By.XPATH, "//h1[text()='Your cart is empty']")
++    FAV_ICON = (By.CSS_SELECTOR, "[data-test='FavoritesButton']")
++    FAV_TT_TEXT = (By.XPATH, "//*[contains(text(), 'Click to sign in and save')]")
++
++    def verify_search_results(self):
++        actual_text = self.find_element(*self.SEARCH_RESULTS_TXT).text
++        assert 'tea' in actual_text, f"Error, expected 'tea' not in actual {actual_text}"
++
++    def cart_is_empty(self):
++        message_element = self.find_element(*self.SEARCH_CART).text
++        assert message_element.text == "Your cart is empty"
++
++    def hover_fav_icon(self):
++        self.hover_element(*self.FAV_ICON)
++
++    def verify_fav_tt_shown(self):
++        self.wait_for_element(self.FAV_TT_TEXT)
+diff --git a/pages/sign_in_page.py b/pages/sign_in_page.py
+new file mode 100644
+index 0000000..dac5275
+--- /dev/null
++++ b/pages/sign_in_page.py
+@@ -0,0 +1,39 @@
++from features.steps.header_steps import SEARCH_FIELD, CART_ICON
++from pages.base_page import Page
++from selenium.webdriver.common.by import By
++from selenium.webdriver.support.ui import WebDriverWait
++from selenium.webdriver.support import expected_conditions as EC
++
++
++
++class SignInPage(Page):
++    VERIFY_SIGN_IN = (By.CSS_SELECTOR, "h1[class*='styles_ndsHeading']")
++
++    def verify_sign_in(self):
++        actual_text = self.find_element(*self.VERIFY_SIGN_IN).text
++        expected_text = 'Sign in or create account'
++        assert actual_text == expected_text, f"Error, expected {expected_text} but got actual {actual_text}"
++
++    def click_continue(self):
++        self.driver.find_element(By.ID, "login").click()
++
++    def enter_email_address(self):
++        email_input = self.wait.until(EC.visibility_of_element_located((By.ID, "username")))
++        email_input.send_keys("traci707@gmail.com")  # Replace with real test email
++        continue_btn = self.driver.find_element(By.ID, "login")
++        continue_btn.click()
++
++    def click_account_with_password(self):
++        self.driver.find_element(By.ID, "password-checkbox").click()
++
++    def enter_incorrect_password(self):
++        password_input = self.wait.until(EC.visibility_of_element_located((By.ID, "password")))
++        password_input.send_keys("WrongPassword123")
++
++    def sign_in_password(self):
++        sign_in_btn = self.driver.find_element(By.ID, "password")
++        sign_in_btn.click()
++
++    def verify_error_message(self):
++        error = self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-test='authErrorMessage']")))
++        self.assertIn("incorrect", error.text.lower())
+\ No newline at end of file
+diff --git a/pages/target_app_page.py b/pages/target_app_page.py
+new file mode 100644
+index 0000000..bf1b4bb
+--- /dev/null
++++ b/pages/target_app_page.py
+@@ -0,0 +1,16 @@
++from selenium.webdriver.common.by import  By
++from time import sleep
++
++from pages.base_page import  Page
++
++class TargetAppPage(Page):
++    TC_LINK = (By.CSS_SELECTOR, "a[aria-label*='terms & conditions']")
++
++    def open_target_sign_in_page(self):
++        self.driver.get('https://www.target.com/orders?lnk=acct_nav_my_account')
++
++    def click_terms_conditions_link(self):
++        print(f"Before click: {self.driver.window_handles}")
++        self.click(*self.TC_LINK)
++        sleep(2)  # Temp: allow time for the new window to spawn
++        print(f"After click: {self.driver.window_handles}")
+\ No newline at end of file
+diff --git a/pages/terms_conditions_page.py b/pages/terms_conditions_page.py
+new file mode 100644
+index 0000000..74fa0a0
+--- /dev/null
++++ b/pages/terms_conditions_page.py
+@@ -0,0 +1,9 @@
++from pages.base_page import Page
++from selenium.webdriver.support.ui import WebDriverWait
++from selenium.webdriver.support import expected_conditions as EC
++
++class TermsConditionsPage(Page):
++    def verify_tc_opened(self):
++        current_url = self.driver.current_url
++        print(f"Current URL: {current_url}")
++        self.wait_for_url_contains('terms-conditions')
+\ No newline at end of file
+diff --git a/requirements.txt b/requirements.txt
+new file mode 100755
+index 0000000..28461e8
+--- /dev/null
++++ b/requirements.txt
+@@ -0,0 +1,4 @@
++allure-behave
++behave
++selenium
++webdriver-manager
+\ No newline at end of file
+diff --git a/sample_script.py b/sample_script.py
+new file mode 100755
+index 0000000..0804f58
+--- /dev/null
++++ b/sample_script.py
+@@ -0,0 +1,33 @@
++from selenium import webdriver
++from selenium.webdriver.common.by import By
++from selenium.webdriver.chrome.service import Service
++from webdriver_manager.chrome import ChromeDriverManager
++from time import sleep
++
++# get the path to the ChromeDriver executable
++driver_path = ChromeDriverManager().install()
++
++# create a new Chrome browser instance
++service = Service(driver_path)
++driver = webdriver.Chrome(service=service)
++driver.maximize_window()
++
++# open the url
++driver.get('https://www.google.com/')
++
++# populate search field
++search = driver.find_element(By.NAME, 'q')
++search.clear()
++search.send_keys('Table')
++
++# wait for 4 sec
++sleep(4)
++
++# click search button
++driver.find_element(By.NAME, 'btnK').click()
++
++# verify search results
++assert 'table'.lower() in driver.current_url.lower(), f"Expected query not in {driver.current_url.lower()}"
++print('Test Passed')
++
++driver.quit()
+diff --git a/steps_list.txt b/steps_list.txt
+new file mode 100644
+index 0000000..88f1be3
+--- /dev/null
++++ b/steps_list.txt
+@@ -0,0 +1,49 @@
++Feature: Test Scenarios for Search functionality # features/tests/product_search.feature:1
++
++  Scenario: User can search for a product  # features/tests/product_search.feature:3
++    Given Open Google page                 # features/steps/product_search.py:10
++    When Input Car into search field       # features/steps/target_product_search.py:6
++    And Click on search icon               # features/steps/target_product_search.py:14
++    Then Product results for Car are shown # features/steps/target_product_search.py:19
++
++Feature: View Empty Cart on Target.com # features/tests/target_click_cart_icon.feature:1
++
++  Scenario: User can verify when the cart is empty  # features/tests/target_click_cart_icon.feature:3
++    Given Open Target page                          # features/steps/target_click_cart_icon.py:6
++    When Click on cart icon                         # features/steps/target_click_cart_icon.py:10
++    Then Cart is empty                              # features/steps/target_click_cart_icon.py:15
++
++Feature: Verify sign in for logged out users # features/tests/target_logout.feature:2
++
++  Scenario: Logged out user can navigate to Sign In  # features/tests/target_logout.feature:5
++    Given Open Target page                           # features/steps/target_click_cart_icon.py:6
++    When Click on Account                            # features/steps/target_logout.py:10
++    And Click on sign in                             # features/steps/target_logout.py:15
++    Then Open sign in form                           # features/steps/target_logout.py:20
++
++Feature: Test Scenarios for Search functionality # features/tests/target_product_search.feature:1
++
++  Scenario: User can search for a product       # features/tests/target_product_search.feature:3
++    Given Open Target page                      # features/steps/target_click_cart_icon.py:6
++    When Input 'Pencil' into search field       # features/steps/target_product_search.py:6
++    When Click on search icon                   # features/steps/target_product_search.py:14
++    Then Product results for 'Pencil' are shown # features/steps/target_product_search.py:19
++
++  Scenario: Verify number of benefit cells         # features/tests/target_product_search.feature:9
++    Given Open Target page                         # features/steps/target_click_cart_icon.py:6
++    When Open Target Circle page                   # features/steps/target_circle_page.py:5
++    Then Verify Circle page has '10' or more cells # None
++
++  Scenario: User can add a product to the cart                                                      # features/tests/target_product_search.feature:14
++    Given Open Target page                                                                          # features/steps/target_click_cart_icon.py:6
++    When Input 'V8 +Energy Summertime Watermelon Energy Drink - 6pk/8 fl oz Cans' into search field # features/steps/target_product_search.py:6
++    When Click on search icon                                                                       # features/steps/target_product_search.py:14
++    When Click the add to cart button                                                               # features/steps/target_add_to_cart.py:15
++    When Choose options and add to cart                                                             # features/steps/target_add_to_cart.py:24
++    When Click view cart                                                                            # features/steps/target_add_to_cart.py:33
++    Then Verify 'V8 +Energy Summertime Watermelon Energy Drink - 6pk/8 fl oz Cans' is in the cart   # None
++
++0 features passed, 0 failed, 0 skipped, 4 untested
++0 scenarios passed, 0 failed, 0 skipped, 6 untested
++0 steps passed, 0 failed, 0 skipped, 2 undefined, 23 untested
++Took 0m0.000s
+diff --git a/target_search_script.py b/target_search_script.py
+new file mode 100644
+index 0000000..42cb363
+--- /dev/null
++++ b/target_search_script.py
+@@ -0,0 +1,29 @@
++from time import sleep
++from selenium import webdriver
++from selenium.webdriver.common.by import By
++
++#init driver
++driver = webdriver.Chrome()
++driver.maximize_window()
++
++# open the url
++driver.get('https://target.com')
++
++# click on account button
++driver.find_element(By.XPATH, "//a[@id='account-sign-in']").click()
++
++
++# Click SignIn button
++driver.find_element(By.XPATH, "//button[@data-test='accountNav-signIn']").click()
++
++# Assert (Verification)
++assert "Login: Target" in driver.title, f"Expected title to contain 'Login: Target', but got {driver.title}"
++
++sleep(6)
++
++
++
++
++
++
++
+-- 
+2.24.3 (Apple Git-128)
+

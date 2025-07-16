@@ -7,6 +7,8 @@ from pages.search_results_page import SearchResultsPage
 from pages.target_app_page import TargetAppPage
 from pages.terms_conditions_page import TermsConditionsPage
 from pages.sign_in_page import SignInPage
+from pages.secondary_option_page import ReellySecondaryPage
+
 
 class Application:
     def __init__(self, driver):
@@ -18,7 +20,8 @@ class Application:
         self.search_results_page = SearchResultsPage(driver)
         self.target_app_page = TargetAppPage(driver)
         self.terms_conditions_page = TermsConditionsPage(driver)
-        self.sign_in = SignInPage(driver)
+        self.sign_in_page = SignInPage(driver)
+        self.secondary_option_page = ReellySecondaryPage(driver)
 
 #app = Application()
 #app.main_page.open_main_page()

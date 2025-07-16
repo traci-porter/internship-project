@@ -37,3 +37,12 @@ class SignInPage(Page):
     def verify_error_message(self):
         error = self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-test='authErrorMessage']")))
         self.assertIn("incorrect", error.text.lower())
+
+    def log_in_steps(self):
+        enter_email = self.wait.until(EC.visibility_of_element_located((By.ID, "email-2")))
+        enter_email.send_keys("traci707@gmail.com")
+        enter_password = self.wait.until(EC.visibility_of_element_located((By.ID, "field")))
+        enter_password.send_keys("xxxxxx")
+        click_continue = self.driver.find_element(By.XPATH, "//a[@wized='loginButton']")
+        click_continue.click()
+
