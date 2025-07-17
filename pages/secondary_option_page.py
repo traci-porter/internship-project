@@ -10,7 +10,7 @@ from selenium.common.exceptions import ElementClickInterceptedException
 
 class ReellySecondaryPage(Page):
     def click_secondary_option(self):
-        wait = WebDriverWait(self.driver, 10)
+        wait = WebDriverWait(self.driver, 20)
         secondary_option = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/secondary-listings']")))
         secondary_option.click()
 
@@ -81,7 +81,7 @@ class ReellySecondaryPage(Page):
                     self.driver.execute_script("arguments[0].click();", prev_button)
 
                 # Wait for page number to decrease
-                wait.until(lambda d: get_current_page() < current_page)
+                wait.until(lambda d: (cp := get_current_page()) is not None and cp < current_page)
 
             except TimeoutException:
                 print("❌ Previous button not clickable or page did not update.")

@@ -42,7 +42,7 @@ class SignInPage(Page):
         enter_email = self.wait.until(EC.visibility_of_element_located((By.ID, "email-2")))
         enter_email.send_keys("traci707@gmail.com")
         enter_password = self.wait.until(EC.visibility_of_element_located((By.ID, "field")))
-        enter_password.send_keys("xxxxxx")
+        enter_password.send_keys("0Lh0s!pm")
         click_continue = self.driver.find_element(By.XPATH, "//a[@wized='loginButton']")
         click_continue.click()
 
