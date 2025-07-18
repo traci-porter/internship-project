@@ -1,30 +1,44 @@
+import os
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.service import Service as FirefoxService
+from webdriver_manager.firefox import GeckoDriverManager
+from dotenv import load_dotenv
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.chrome.service import Service
+
+load_dotenv()
 
 from app.application import Application
-
 
 def browser_init(context, scenario_name):
     """
     :param context: Behave context
     """
-    driver_path = ChromeDriverManager().install()
-    service = Service(driver_path)
-    context.driver = webdriver.Chrome()
+    #driver_path = ChromeDriverManager().install()
+    #service = Service(driver_path)
+    #context.driver = webdriver.Chrome(service=service)
+
 
     ### SAFARI ###
     # context.driver = webdriver.Firefox()
     # context.driver = webdriver.Safari()
 
     ### HEADLESS MODE ####
-    #options = webdriver.ChromeOptions()
-    #options.add_argument('headless')
-    #context.driver = webdriver.Chrome(
-    # options=options
-     #)
+    options = webdriver.FirefoxOptions()
+    options.add_argument("--headless")
+    options.add_argument("--width=1920")
+    options.add_argument("--height=1080")
+
+    service = FirefoxService(GeckoDriverManager().install())
+    context.driver = webdriver.Firefox(service=service, options=options)
+
+    context.driver.set_page_load_timeout(60)
+
+    #context.driver = webdriver.Chrome(options=options)
 
     ### BROWSERSTACK ###
     # Register for BrowserStack, then grab it from https://www.browserstack.com/accounts/settings

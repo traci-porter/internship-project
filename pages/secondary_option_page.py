@@ -11,14 +11,22 @@ from selenium.common.exceptions import ElementClickInterceptedException
 class ReellySecondaryPage(Page):
     def click_secondary_option(self):
         wait = WebDriverWait(self.driver, 20)
-        secondary_option = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/secondary-listings']")))
-        secondary_option.click()
+
+        element = wait.until(
+            EC.element_to_be_clickable((By.XPATH, "//a[@href='/secondary-listings']"))
+        )
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
+        self.driver.execute_script("arguments[0].click();", element)
+
+        # Wait for navigation to complete
+        wait.until(EC.url_contains("/secondary-listings"))
+        print("✅ Clicked on Secondary Listings and navigated")
 
     def verify_correct_page_opens(self):
         actual_page = self.driver.current_url
-        print(f"Current URL: {actual_page}")
-        self.wait_for_url_contains('secondary-listings')
-        assert actual_page == "https://soft.reelly.io/secondary-listings"
+        print(f"Actual page URL: {actual_page}")
+        expected_page = "https://soft.reelly.io/secondary-listings"
+        assert actual_page == expected_page, f"Expected URL '{expected_page}', but got '{actual_page}'"
 
     def wait_for_page_to_update(self, wait, expected_page):
         def check_page(driver):
