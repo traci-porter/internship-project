@@ -2,7 +2,7 @@ from behave import given, when, then
 
 @given('Open the main page')
 def open_main(context):
-    context.driver.get('https://soft.reelly.io/')
+    context.driver.get('https://soft.reelly.io/sign-in')
 
 @when('Log in to the page')
 def log_in_steps(context):
