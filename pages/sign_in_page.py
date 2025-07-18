@@ -48,7 +48,7 @@ class SignInPage(Page):
         wait.until(EC.presence_of_element_located((By.XPATH, "//form")))
 
         wait.until(EC.presence_of_element_located((By.ID, "email-2"))).send_keys("traci707@gmail.com")
-        wait.until(EC.presence_of_element_located((By.ID, "field"))).send_keys("0Lh0s!pm")
+        wait.until(EC.presence_of_element_located((By.ID, "field"))).send_keys("xxxxxx")
 
         login_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a[wized='loginButton']")))
         login_button.click()
