@@ -1,49 +1,42 @@
 import os
 from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
-
-# Chrome-specific imports
 from selenium.webdriver.chrome.service import Service as ChromeService
-from selenium.webdriver.chrome.options import Options as ChromeOptions
 from webdriver_manager.chrome import ChromeDriverManager
-
-# Firefox-specific imports
 from selenium.webdriver.firefox.service import Service as FirefoxService
-from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from webdriver_manager.firefox import GeckoDriverManager
-
-# For environment variable support
 from dotenv import load_dotenv
-
-
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.chrome.service import Service
 
 load_dotenv()
 
 from app.application import Application
 
+
 def browser_init(context, scenario_name):
     """
     :param context: Behave context
     """
-    #driver_path = ChromeDriverManager().install()
-    #service = Service(driver_path)
-    #context.driver = webdriver.Chrome(service=service)
-
+    driver_path = ChromeDriverManager().install()
+    service = Service(driver_path)
+    context.driver = webdriver.Chrome()
 
     ### SAFARI ###
     # context.driver = webdriver.Firefox()
     # context.driver = webdriver.Safari()
 
     ### HEADLESS MODE ####
-    #options = webdriver.FirefoxOptions()
-    #options.add_argument("--headless")
-    #options.add_argument("--width=1920")
-    #options.add_argument("--height=1080")
+    options = webdriver.FirefoxOptions()
+    options.add_argument("--headless")
+    options.add_argument("--width=1920")
+    options.add_argument("--height=1080")
 
-    #service = FirefoxService(GeckoDriverManager().install())
-    #context.driver = webdriver.Firefox(service=service, options=options)
+    service = FirefoxService(GeckoDriverManager().install())
+    context.driver = webdriver.Firefox(service=service, options=options)
 
-    #context.driver.set_page_load_timeout(60)
+    context.driver.set_page_load_timeout(60)
 
     #context.driver = webdriver.Chrome(options=options)
 
@@ -62,9 +55,9 @@ def browser_init(context, scenario_name):
      "buildName": "Secondary Option Page"
      }
 
-    options = ChromeOptions()
-    options.set_capability('bstack:options', bstack_options)
-    context.driver = webdriver.Remote(command_executor=url, options=options)
+    #options = Options()
+    #options.set_capability('bstack:options', bstack_options)
+    #context.driver = webdriver.Remote(command_executor=url, options=options)
 
 
     context.driver.maximize_window()
