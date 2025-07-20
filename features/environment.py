@@ -28,15 +28,15 @@ def browser_init(context, scenario_name):
     # context.driver = webdriver.Safari()
 
     ### HEADLESS MODE ####
-    options = webdriver.FirefoxOptions()
-    options.add_argument("--headless")
-    options.add_argument("--width=1920")
-    options.add_argument("--height=1080")
+    #options = webdriver.FirefoxOptions()
+    #options.add_argument("--headless")
+    #options.add_argument("--width=1920")
+    #options.add_argument("--height=1080")
 
-    service = FirefoxService(GeckoDriverManager().install())
-    context.driver = webdriver.Firefox(service=service, options=options)
+    #service = FirefoxService(GeckoDriverManager().install())
+    #context.driver = webdriver.Firefox(service=service, options=options)
 
-    context.driver.set_page_load_timeout(60)
+    #context.driver.set_page_load_timeout(60)
 
     #context.driver = webdriver.Chrome(options=options)
 
@@ -55,9 +55,9 @@ def browser_init(context, scenario_name):
      "buildName": "Secondary Option Page"
      }
 
-    #options = Options()
-    #options.set_capability('bstack:options', bstack_options)
-    #context.driver = webdriver.Remote(command_executor=url, options=options)
+    options = ChromeOptions()
+    options.set_capability('bstack:options', bstack_options)
+    context.driver = webdriver.Remote(command_executor=url, options=options)
 
 
     context.driver.maximize_window()
