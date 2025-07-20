@@ -48,7 +48,7 @@ class SignInPage(Page):
         wait.until(EC.presence_of_element_located((By.XPATH, "//form")))
 
         wait.until(EC.presence_of_element_located((By.ID, "email-2"))).send_keys("traci707@gmail.com")
-        wait.until(EC.presence_of_element_located((By.ID, "field"))).send_keys("xxxxxx")
+        wait.until(EC.presence_of_element_located((By.ID, "field"))).send_keys("Password1")
 
         login_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a[wized='loginButton']")))
         login_button.click()
@@ -57,11 +57,3 @@ class SignInPage(Page):
         wait.until(EC.presence_of_element_located((By.XPATH, "//a[contains(@href, '/secondary-listings')]")))
         print("✅ Logged in successfully")
 
-        #enter_email = wait.until(EC.visibility_of_element_located((By.ID, "email-2")))
-        #enter_email.send_keys("traci707@gmail.com")
-
-        #enter_password = wait.until(EC.visibility_of_element_located((By.ID, "field")))
-        #enter_password.send_keys("0Lh0s!pm")
-
-        #click_continue = self.driver.find_element(By.XPATH, "//a[@wized='loginButton']")
-        #click_continue.click()

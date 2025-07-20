@@ -1,14 +1,21 @@
 import os
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.firefox.service import Service as FirefoxService
-from webdriver_manager.firefox import GeckoDriverManager
-from dotenv import load_dotenv
 from selenium.webdriver.support.ui import WebDriverWait
+
+# Chrome-specific imports
+from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options as ChromeOptions
+from webdriver_manager.chrome import ChromeDriverManager
+
+# Firefox-specific imports
+from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
-from selenium.webdriver.chrome.service import Service
+from webdriver_manager.firefox import GeckoDriverManager
+
+# For environment variable support
+from dotenv import load_dotenv
+
+
 
 load_dotenv()
 
@@ -28,36 +35,36 @@ def browser_init(context, scenario_name):
     # context.driver = webdriver.Safari()
 
     ### HEADLESS MODE ####
-    options = webdriver.FirefoxOptions()
-    options.add_argument("--headless")
-    options.add_argument("--width=1920")
-    options.add_argument("--height=1080")
+    #options = webdriver.FirefoxOptions()
+    #options.add_argument("--headless")
+    #options.add_argument("--width=1920")
+    #options.add_argument("--height=1080")
 
-    service = FirefoxService(GeckoDriverManager().install())
-    context.driver = webdriver.Firefox(service=service, options=options)
+    #service = FirefoxService(GeckoDriverManager().install())
+    #context.driver = webdriver.Firefox(service=service, options=options)
 
-    context.driver.set_page_load_timeout(60)
+    #context.driver.set_page_load_timeout(60)
 
     #context.driver = webdriver.Chrome(options=options)
 
     ### BROWSERSTACK ###
     # Register for BrowserStack, then grab it from https://www.browserstack.com/accounts/settings
-    #bs_user ='traciporter_cm2f0g'
-    #bs_key = 'exVjc2Z8v5MpDFuQidp7'
-    #url = f'https://{bs_user}:{bs_key}@hub-cloud.browserstack.com/wd/hub'
+    bs_user ='traciporter_cm2f0g'
+    bs_key = 'exVjc2Z8v5MpDFuQidp7'
+    url = f'https://{bs_user}:{bs_key}@hub-cloud.browserstack.com/wd/hub'
 
 
-    #bstack_options = {
-     #"os" : "Windows",
-     #"osVersion" : "11",
-     #'browserName': 'Edge',
-     #'sessionName': scenario_name,
-     #"buildName": "Target Automation Build"
-     #}
+    bstack_options = {
+    "os" : "Windows",
+    "osVersion" : "11",
+     'browserName': 'Chrome',
+     'sessionName': scenario_name,
+     "buildName": "Secondary Option Page"
+     }
 
-    #options = Options()
-    #options.set_capability('bstack:options', bstack_options)
-    #context.driver = webdriver.Remote(command_executor=url, options=options)
+    options = ChromeOptions()
+    options.set_capability('bstack:options', bstack_options)
+    context.driver = webdriver.Remote(command_executor=url, options=options)
 
 
     context.driver.maximize_window()
