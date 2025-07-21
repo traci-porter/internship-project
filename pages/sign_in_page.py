@@ -42,7 +42,6 @@ class SignInPage(Page):
         print("⏳ Trying to log in...")
         print("Current URL:", self.driver.current_url)
         self.driver.save_screenshot("login_page_debug.png")
-<<<<<<< HEAD
 
         self.driver.get("https://soft.reelly.io/sign-in")
         wait = WebDriverWait(self.driver, 20)
@@ -57,28 +56,5 @@ class SignInPage(Page):
         # Wait until dashboard or menu is visible
         wait.until(EC.presence_of_element_located((By.XPATH, "//a[contains(@href, '/secondary-listings')]")))
         print("✅ Logged in successfully")
-=======
->>>>>>> 40783f05acf6fae20c65b7d30445d5d362e6165d
 
-        self.driver.get("https://soft.reelly.io/sign-in")
-        wait = WebDriverWait(self.driver, 20)
-        wait.until(EC.presence_of_element_located((By.XPATH, "//form")))
 
-        wait.until(EC.presence_of_element_located((By.ID, "email-2"))).send_keys("traci707@gmail.com")
-        wait.until(EC.presence_of_element_located((By.ID, "field"))).send_keys("xxxxxx")
-
-        login_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a[wized='loginButton']")))
-        login_button.click()
-
-        # Wait until dashboard or menu is visible
-        wait.until(EC.presence_of_element_located((By.XPATH, "//a[contains(@href, '/secondary-listings')]")))
-        print("✅ Logged in successfully")
-
-        #enter_email = wait.until(EC.visibility_of_element_located((By.ID, "email-2")))
-        #enter_email.send_keys("traci707@gmail.com")
-
-        #enter_password = wait.until(EC.visibility_of_element_located((By.ID, "field")))
-        #enter_password.send_keys("0Lh0s!pm")
-
-        #click_continue = self.driver.find_element(By.XPATH, "//a[@wized='loginButton']")
-        #click_continue.click()
