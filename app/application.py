@@ -26,3 +26,4 @@ class Application:
 #app = Application()
 #app.main_page.open_main_page()
 #app.header.search_product()
+
