@@ -3,24 +3,58 @@ from pages.base_page import Page
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 import time
 from selenium.common.exceptions import ElementClickInterceptedException
 
 
+def wait_for_overlay_to_disappear(driver, timeout=10):
+    wait = WebDriverWait(driver, timeout)
+    try:
+        overlay = driver.find_element(By.ID, "weglot-listbox")
+        if overlay.is_displayed():
+            wait.until(EC.invisibility_of_element_located((By.ID, "weglot-listbox")))
+    except NoSuchElementException:
+        pass
+    except TimeoutException:
+        print("Warning: Overlay 'weglot-listbox' did not disappear within timeout")
+
 class ReellySecondaryPage(Page):
+
+    def hide_weglot_overlay(self):
+        try:
+            self.driver.execute_script("""
+                const overlay = document.getElementById('weglot-listbox');
+                if (overlay && overlay.style.display !== 'none') {
+                    overlay.style.display = 'none';
+                    console.log('✅ Weglot overlay hidden');
+                }
+            """)
+        except Exception as e:
+            print(f"⚠️ Failed to hide Weglot overlay: {e}")
+
     def click_secondary_option(self):
         wait = WebDriverWait(self.driver, 20)
 
-        element = wait.until(
-            EC.element_to_be_clickable((By.XPATH, "//a[@href='/secondary-listings']"))
-        )
-        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
-        self.driver.execute_script("arguments[0].click();", element)
+        # Optional: Hide Weglot overlay
+        self.hide_weglot_overlay()
 
-        # Wait for navigation to complete
+        # Click Off-plan button
+        off_plan = wait.until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "a.menu-link.w-inline-block[wized='newOffPlanLink']"))
+        )
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", off_plan)
+        self.driver.execute_script("arguments[0].click();", off_plan)
+
+        secondary = wait.until(
+            EC.element_to_be_clickable((By.XPATH, "//button[text()='Secondary']"))
+        )
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", secondary)
+        self.driver.execute_script("arguments[0].click();", secondary)
+
+        # Confirm the page has loaded
         wait.until(EC.url_contains("/secondary-listings"))
-        print("✅ Clicked on Secondary Listings and navigated")
+        print("✅ Navigated directly to Secondary Listings")
 
     def verify_correct_page_opens(self):
         actual_page = self.driver.current_url
@@ -51,57 +85,55 @@ class ReellySecondaryPage(Page):
 
         def get_current_page():
             try:
-                element = wait.until(
-                    EC.presence_of_element_located((By.XPATH, "//div[@wized='currentPageProperties']"))
-                )
-                text = element.text.strip()
-                print(f"Current page text: '{text}'")
-                return int(text) if text.isdigit() else None
+                wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[wized='currentPageProperties']")))
+                elem = self.driver.find_element(By.CSS_SELECTOR, "div[wized='currentPageProperties']")
+                page_text = elem.text.strip()
+                return int(page_text)
             except Exception as e:
-                print(f"⚠️ Error reading current page: {e}")
+                print(f"⚠️ Failed to read current page number: {e}")
                 return None
 
-        while True:
-            current_page = None
+        previous_button_locator = (By.CSS_SELECTOR, "div[wized='previousPageMLS']")
 
-            # Try to get current page number up to 10 times, waiting 1 second between tries
-            for _ in range(5):
-                current_page = get_current_page()
-                if current_page is not None:
-                    break
-                time.sleep(1)
-            if current_page is None:
-                raise Exception("❌ Could not read current page number.")
+        current_page = get_current_page()
+        if current_page is None:
+            raise Exception("❌ Could not read the current page number.")
 
-            if current_page <= 1:
-                print("✅ Reached the first page.")
-                break
+        print(f"🔢 Starting at page {current_page}")
 
+        while current_page and current_page > 1:
             try:
-                prev_button_xpath = "//*[@wized='previousPageButton' or @wized='previousPageMLS']"
-                prev_button = wait.until(EC.element_to_be_clickable((By.XPATH, prev_button_xpath)))
+                prev_button = wait.until(EC.element_to_be_clickable(previous_button_locator))
                 print("🔘 Previous button found and clickable. Clicking...")
 
                 try:
                     prev_button.click()
-                except ElementClickInterceptedException:
+                except Exception:
                     print("⚠️ Regular click failed, trying JavaScript click...")
                     self.driver.execute_script("arguments[0].click();", prev_button)
 
-                # Wait for page number to decrease
+                # Wait for page to update to a lower page number
                 wait.until(lambda d: (cp := get_current_page()) is not None and cp < current_page)
+                current_page = get_current_page()
+                print(f"📄 Current page text: '{current_page}'")
 
-            except TimeoutException:
-                print("❌ Previous button not clickable or page did not update.")
-                raise
+            except Exception as e:
+                print(f"❌ Previous button not clickable or page did not update: {e}")
+                break
 
     def verify_on_first_page(self):
-        current_page_element = WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "//div[@wized='currentPageProperties']"))
-        )
+        wait = WebDriverWait(self.driver, 10)
+
+        wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[wized='currentPageProperties']")))
+
+        # Wait until the element's text is not empty
+        wait.until(lambda driver: driver.find_element(By.CSS_SELECTOR,"div[wized='currentPageProperties']").text.strip() != '')
+
+        current_page_element = self.driver.find_element(By.CSS_SELECTOR, "div[wized='currentPageProperties']")
         current_page = int(current_page_element.text.strip())
-        assert current_page == 1, f"Expected page 1, but was on page {current_page}"
-        print("✅ Verified: You are on page 1.")
+
+        print(f"✅ Current page is: {current_page}")
+        assert current_page == 1, f"Expected to be on first page (1), but on page {current_page}"
 
     def final_page(self):
         wait = WebDriverWait(self.driver, 10)
@@ -125,9 +157,14 @@ class ReellySecondaryPage(Page):
                 break
 
             next_button = wait.until(
-                EC.element_to_be_clickable((By.XPATH, "//a[@wized='nextPageMLS']"))
+                EC.element_to_be_clickable((By.CSS_SELECTOR, "a[wized='nextPageMLS']"))
             )
-            next_button.click()
+            # Scroll into view
+            self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", next_button)
+            # Click with JS to avoid intercept
+            self.driver.execute_script("arguments[0].click();", next_button)
+
+            print("✅ Clicked the pagination next button using JS")
 
             try:
                 self.wait_for_page_to_update(wait, current_page + 1)
