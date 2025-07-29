@@ -1,9 +1,11 @@
+from time import sleep
+
 from features.steps.header_steps import SEARCH_FIELD, CART_ICON
 from pages.base_page import Page
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 class SignInPage(Page):
@@ -51,8 +53,12 @@ class SignInPage(Page):
         wait.until(EC.presence_of_element_located((By.ID, "field"))).send_keys("Password1")
 
         login_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a[wized='loginButton']")))
-        login_button.click()
 
+        actions = ActionChains(self.driver) #FOR MOBILE
+        actions.move_by_offset(0, 0).click().perform() #FOR MOBILE
+
+        sleep(5)
+        login_button.click()
         # Wait until dashboard or menu is visible
         wait.until(EC.presence_of_element_located((By.XPATH, "//a[contains(@href, '/secondary-listings')]")))
         print("✅ Logged in successfully")

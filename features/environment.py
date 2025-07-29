@@ -4,13 +4,14 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.firefox import GeckoDriverManager
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.chrome.service import Service
-
-load_dotenv()
+from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
+# load_dotenv()
 
 from app.application import Application
 
@@ -23,20 +24,20 @@ def browser_init(context, scenario_name):
     #service = Service(driver_path)
     #context.driver = webdriver.Chrome(service=service)
 
-    mobile_emulation = {"deviceName": "Nexus 5"}
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
-
-    service = Service(ChromeDriverManager().install())
-    context.driver = webdriver.Chrome(service=service, options=chrome_options)
+    # mobile_emulation = {"deviceName": "Nexus 5"}
+    # chrome_options = webdriver.ChromeOptions()
+    # chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
+    #
+    # service = Service(ChromeDriverManager().install())
+    # context.driver = webdriver.Chrome(service=service, options=chrome_options)
 
     # Initialize your Application with the driver
-    context.app = Application(context.driver)
-
-    # You can also add timeouts, maximize window, etc. here
-    context.driver.maximize_window()
-    context.driver.implicitly_wait(4)
-    context.driver.wait = WebDriverWait(context.driver, timeout=10)
+    # context.app = Application(context.driver)
+    #
+    # # You can also add timeouts, maximize window, etc. here
+    # context.driver.maximize_window()
+    # context.driver.implicitly_wait(4)
+    # context.driver.wait = WebDriverWait(context.driver, timeout=10)
 
     ### SAFARI ###
     # context.driver = webdriver.Firefox()
@@ -57,9 +58,9 @@ def browser_init(context, scenario_name):
 
     ### BROWSERSTACK ###
     # Register for BrowserStack, then grab it from https://www.browserstack.com/accounts/settings
-    #bs_user ='traciporter_cm2f0g'
-    #bs_key = 'exVjc2Z8v5MpDFuQidp7'
-    #url = f'https://{bs_user}:{bs_key}@hub-cloud.browserstack.com/wd/hub'
+    bs_user ='traciporter_Cm2F0G'
+    bs_key = 'exVjc2Z8v5MpDFuQidp7'
+    url = f'https://{bs_user}:{bs_key}@hub-cloud.browserstack.com/wd/hub'
 
 
     #bstack_options = {
@@ -70,15 +71,23 @@ def browser_init(context, scenario_name):
     #"buildName": "Secondary Option Page"
     #}
 
-    #options = ChromeOptions()
-    #options.set_capability('bstack:options', bstack_options)
-    #context.driver = webdriver.Remote(command_executor=url, options=options)
+    # options = ChromeOptions()
+    options = Options()
+    bstack_options = {
+        "deviceName": "Samsung Galaxy S22 Ultra",
+        "platformName": "Android",
+        'browserName': 'Chrome',
+        'sessionName': scenario_name,
+        "interactiveDebugging": "True"
+    }
+    options.set_capability('bstack:options', bstack_options)
+    context.driver = webdriver.Remote(command_executor=url, options=options)
 
 
-    #context.driver.maximize_window()
-    #context.driver.implicitly_wait(4)
-    #context.driver.wait = WebDriverWait(context.driver, timeout=10)
-    #context.app = Application(context.driver)
+    context.driver.maximize_window()
+    context.driver.implicitly_wait(4)
+    context.driver.wait = WebDriverWait(context.driver, timeout=10)
+    context.app = Application(context.driver)
 
 
 def before_scenario(context, scenario):
@@ -96,6 +105,6 @@ def after_step(context, step):
 
 
 def after_scenario(context, feature):
-    context.driver.delete_all_cookies()
-    context.driver.quit()
+    if hasattr(context, 'driver'):
+        context.driver.quit()
 

@@ -6,7 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 import time
 from selenium.common.exceptions import ElementClickInterceptedException
-
+from time import sleep
 
 def wait_for_overlay_to_disappear(driver, timeout=10):
     wait = WebDriverWait(driver, timeout)
@@ -135,43 +135,56 @@ class ReellySecondaryPage(Page):
         print(f"✅ Current page is: {current_page}")
         assert current_page == 1, f"Expected to be on first page (1), but on page {current_page}"
 
+    ## FOR LOCAL SETUP
+    # def final_page(self):
+    #     wait = WebDriverWait(self.driver, 10)
+    #
+    #     while True:
+    #         current_page_element = wait.until(
+    #             EC.presence_of_element_located((By.XPATH, "//div[@wized='currentPageProperties']"))
+    #         )
+    #         current_page_text = current_page_element.text.strip()
+    #         if not current_page_text:
+    #             continue
+    #         current_page = int(current_page_text)
+    #
+    #         total_pages_element = wait.until(
+    #             EC.presence_of_element_located((By.XPATH, "//div[@wized='totalPageProperties']"))
+    #         )
+    #         total_pages = int(total_pages_element.text.strip())
+    #
+    #         if current_page >= total_pages:
+    #             print(f"Reached the last page: {current_page}")
+    #             break
+    #
+    #         next_button = wait.until(
+    #             EC.element_to_be_clickable((By.CSS_SELECTOR, "a[wized='nextPageMLS']"))
+    #         )
+    #         # Scroll into view
+    #         self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", next_button)
+    #         # Click with JS to avoid intercept
+    #         self.driver.execute_script("arguments[0].click();", next_button)
+    #
+    #         print("✅ Clicked the pagination next button using JS")
+    #
+    #         try:
+    #             self.wait_for_page_to_update(wait, current_page + 1)
+    #         except Exception as e:
+    #             print(f"⚠️ Warning: {e}")
+    #             # Optionally break or continue, depending on your tolerance for failures
+    #             break
+
+
+    #FOR BROWSERSTACK TO MINIMIZE TIME
     def final_page(self):
         wait = WebDriverWait(self.driver, 10)
 
-        while True:
-            current_page_element = wait.until(
-                EC.presence_of_element_located((By.XPATH, "//div[@wized='currentPageProperties']"))
-            )
-            current_page_text = current_page_element.text.strip()
-            if not current_page_text:
-                continue
-            current_page = int(current_page_text)
-
-            total_pages_element = wait.until(
-                EC.presence_of_element_located((By.XPATH, "//div[@wized='totalPageProperties']"))
-            )
-            total_pages = int(total_pages_element.text.strip())
-
-            if current_page >= total_pages:
-                print(f"Reached the last page: {current_page}")
-                break
-
+        for page in range(0, 3):
+            sleep(5)
             next_button = wait.until(
                 EC.element_to_be_clickable((By.CSS_SELECTOR, "a[wized='nextPageMLS']"))
             )
-            # Scroll into view
             self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", next_button)
-            # Click with JS to avoid intercept
             self.driver.execute_script("arguments[0].click();", next_button)
-
-            print("✅ Clicked the pagination next button using JS")
-
-            try:
-                self.wait_for_page_to_update(wait, current_page + 1)
-            except Exception as e:
-                print(f"⚠️ Warning: {e}")
-                # Optionally break or continue, depending on your tolerance for failures
-                break
-
 
 
